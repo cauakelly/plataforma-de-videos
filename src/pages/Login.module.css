@@ -1,0 +1,131 @@
+/* Gradiente e animação de fundo para a tela de login */
+.background {
+  min-height: 100vh;
+  margin: 0;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #112286, #005eff, #00ffcc, #15f815, #fa5c00, #fbff00, #ff0000, #ff0040 );
+  background-size: 400% 400%;
+  animation: gradientAnim 15s ease infinite;
+}
+
+@keyframes gradientAnim {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.form {
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 3px;
+  font-size: 24px;
+  width: 360px;
+  height: 570px;
+  margin: 1rem;
+  background-color: rgb(15, 15, 179);
+  border-radius: 4%;
+  opacity: 95%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.title {
+  font-size: 36px;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.button {
+  padding: 8px;
+  width: 70%;
+  background-color: #1d04ffd2;
+  border-radius: 20px;
+  color: #ffffff;
+  font-size: 20px;
+  border: #fff 1px solid;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+body{
+  margin: 0;
+  justify-items: center;
+}
+
+.button:hover {
+  background-color: #197dff;
+  transform: scale(1.05);
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  align-items: center;
+  margin: 5px;
+}
+
+.input {
+  width: 70%;
+  display: flex;
+  padding: 10px 10px 10px 35px;
+  border-radius: 5px;
+  border: 2px solid #929292;
+  font-size: 16px;
+}
+
+.link-container {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin-top: 10px;
+}
+
+.link-container a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+}
+.link-container a:hover {
+  text-decoration: underline;
+  color: #197dff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.input-container i {
+  position: absolute;
+  left: 29.5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a8a8a8;
+}
+
+.loader {
+  border: 3px solid #fff;
+  border-top: 3px solid #197dff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
