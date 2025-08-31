@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Dashboard.module.css';
+import Sidebar from '../sidebar/Sidebar';
 
 function getYouTubeVideoId(url) {
   const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
@@ -10,6 +11,7 @@ function getYouTubeVideoId(url) {
 function Dashboard() {
   const [videos, setVideos] = useState([]);
   const [form, setForm] = useState({ title: '', url: '', description: '' });
+  const [search, setSearch] = useState('');
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -24,67 +26,74 @@ function Dashboard() {
     }
   }
 
+  const filteredVideos = videos.filter(video =>
+    video.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className={styles.dashboardBg}>
-      <header className={styles.header}>
-        <h3>Projeto Youtube</h3>
-      </header>
-      <div className={styles.dashboardContent}>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Título do vídeo"
-            value={form.title}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <input
-            type="url"
-            name="url"
-            placeholder="URL do YouTube"
-            value={form.url}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <input
-            type="text"
-            name="description"
-            placeholder="Descrição do vídeo"
-            value={form.description}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <button type="submit" className={styles.button}>Adicionar Vídeo</button>
-        </form>
-        <div className={styles.videosGrid}>
-          {videos.length === 0 ? (
-            <div className={styles.emptyVideos}>
-              <div className={styles.emptyIcon}>📹</div>
-              <p className={styles.emptyText}>Nenhum vídeo adicionado ainda.</p>
-              <p className={styles.emptyText}>Use o formulário acima para adicionar seus primeiros vídeos.</p>
-            </div>
-          ) : (
-            videos.map((video, idx) => (
-              <div key={idx} className={styles.videoCard}>
-                <div className={styles.thumb}>
-                  {video.url ? (
-                    <img
-                      src={`https://img.youtube.com/vi/${getYouTubeVideoId(video.url)}/maxresdefault.jpg`}
-                      alt={video.title}
-                      className={styles.thumbImg}
-                      onError={e => { e.target.src = 'https://via.placeholder.com/320x180/374151/ffffff?text=Video+Thumbnail'; }}
-                    />
-                  ) : null}
-                </div>
-                <h3 className={styles.videoTitle}>{video.title}</h3>
-                <p className={styles.videoDesc}>{video.description}</p>
-                <a href={video.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                  Assistir no YouTube
-                </a>
+    <div style={{ display: 'flex' }}>
+      <Sidebar onSearch={setSearch} />
+      <div className={styles.dashboardBg} style={{ marginLeft: 220, flex: 1 }}>
+        <header className={styles.header}>
+          <h3>Projeto Youtube</h3>
+        </header>
+        <div className={styles.dashboardContent}>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="title"
+              placeholder="Título do vídeo"
+              value={form.title}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+            <input
+              type="url"
+              name="url"
+              placeholder="URL do YouTube"
+              value={form.url}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+            <input
+              type="text"
+              name="description"
+              placeholder="Descrição do vídeo"
+              value={form.description}
+              onChange={handleInputChange}
+              className={styles.input}
+            />
+            <button type="submit" className={styles.button}>Adicionar Vídeo</button>
+          </form>
+          <div className={styles.videosGrid}>
+            {filteredVideos.length === 0 ? (
+              <div className={styles.emptyVideos}>
+                <div className={styles.emptyIcon}>📹</div>
+                <p className={styles.emptyText}>Nenhum vídeo adicionado ainda.</p>
+                <p className={styles.emptyText}>Use o formulário acima para adicionar seus primeiros vídeos.</p>
               </div>
-            ))
-          )}
+            ) : (
+              filteredVideos.map((video, idx) => (
+                <div key={idx} className={styles.videoCard}>
+                  <div className={styles.thumb}>
+                    {video.url ? (
+                      <img
+                        src={`https://img.youtube.com/vi/${getYouTubeVideoId(video.url)}/maxresdefault.jpg`}
+                        alt={video.title}
+                        className={styles.thumbImg}
+                        onError={e => { e.target.src = 'https://via.placeholder.com/320x180/374151/ffffff?text=Video+Thumbnail'; }}
+                      />
+                    ) : null}
+                  </div>
+                  <h3 className={styles.videoTitle}>{video.title}</h3>
+                  <p className={styles.videoDesc}>{video.description}</p>
+                  <a href={video.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
+                    Assistir no YouTube
+                  </a>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
