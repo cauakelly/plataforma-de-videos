@@ -121,3 +121,20 @@
 .emptyText {
   margin-bottom: 0.5rem;
 }
+
+.footerCopyright {
+  color: #2c2c2c;
+}
+  
+.footer {
+  width: 100%;
+  background: #000000;
+  color: #000000;
+  text-align: center;
+  padding: 16px 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  font-size: 1rem;
+  z-index: 100;
+}

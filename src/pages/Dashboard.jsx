@@ -10,6 +10,7 @@ function getYouTubeVideoId(url) {
 function Dashboard() {
   const [videos, setVideos] = useState([]);
   const [form, setForm] = useState({ title: '', url: '', description: '' });
+  const [editIdx, setEditIdx] = useState(null);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
@@ -19,8 +20,31 @@ function Dashboard() {
   function handleSubmit(e) {
     e.preventDefault();
     if (form.title && form.url) {
-      setVideos(prev => [{ ...form }, ...prev]);
+      if (editIdx !== null) {
+        setVideos(prev => prev.map((v, i) => i === editIdx ? { ...form } : v));
+        setEditIdx(null);
+      } else {
+        setVideos(prev => [{ ...form }, ...prev]);
+      }
       setForm({ title: '', url: '', description: '' });
+    }
+  }
+
+  function handleEdit(idx) {
+    const video = videos[idx];
+    setForm({
+      title: video.title,
+      url: video.url,
+      description: video.description
+    });
+    setEditIdx(idx);
+  }
+
+  function handleDelete(idx) {
+    setVideos(prev => prev.filter((_, i) => i !== idx));
+    if (editIdx === idx) {
+      setForm({ title: '', url: '', description: '' });
+      setEditIdx(null);
     }
   }
 
@@ -55,7 +79,7 @@ function Dashboard() {
             onChange={handleInputChange}
             className={styles.input}
           />
-          <button type="submit" className={styles.button}>Adicionar Vídeo</button>
+          <button type="submit" className={styles.button}>{editIdx !== null ? 'Salvar Edição' : 'Adicionar Vídeo'}</button>
         </form>
         <div className={styles.videosGrid}>
           {videos.length === 0 ? (
@@ -82,10 +106,26 @@ function Dashboard() {
                 <a href={video.url} target="_blank" rel="noopener noreferrer" className={styles.link}>
                   Assistir no YouTube
                 </a>
+                <div style={{ marginTop: '8px', display: 'flex', gap: '8px' }}>
+                  <button type="button" onClick={() => handleEdit(idx)} className={styles.button}>Editar</button>
+                  <button type="button" onClick={() => handleDelete(idx)} className={styles.button} style={{ background: '#dc2626' }}>Excluir</button>
+                </div>
               </div>
             ))
           )}
         </div>
+        <footer>
+          <span className={styles.footerCopyright}>
+            © 2025 Plataforma de Vídeos. Todos os direitos reservados.
+          </span>
+          {' | '}
+          <div style={{ display: 'inline-block', verticalAlign: 'middle', marginLeft: '8px' }}>
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style={{ width: '24px', height: '24px', marginRight: '4px', verticalAlign: 'middle' }} />
+            <a href="https://github.com/cauakelly/plataforma-de-videos" target="_blank" rel="noopener noreferrer" className={styles.link}>
+              Repositório no GitHub
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );

@@ -36,5 +36,18 @@ function Login() {
     </form>
   );
 }
+function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <p>
+        © 2025 Plataforma de Vídeos. Todos os direitos reservados. |
+        <a href="https://github.com/cauakelly/plataforma-de-videos" target="_blank" rel="noopener noreferrer" className={styles.link}>
+          Repositório no GitHub
+        </a>
+      </p>
+    </footer>
+  );
+}
+
 
 export default Login;
